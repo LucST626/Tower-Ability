@@ -8,6 +8,13 @@ public class AbilitieHolder : MonoBehaviour
     [SerializeField] List<Ability> abilities;
     int selectedAbilityIndex = 0;
 
+     void Start()
+     {
+        for(int i = 0; i < abilities.Count; i++)
+        {
+            abilities[i].PlayerTransform(transform);
+        }
+     }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -27,8 +34,11 @@ public class AbilitieHolder : MonoBehaviour
         globalPos.z = transform.position.z;
         Vector3 direction = (globalPos - transform.position).normalized;
         transform.up = direction;
+
         
         if (Input.GetMouseButton(0))
+        {
             abilities[selectedAbilityIndex].Trigger(direction);
+        }
     }
 }

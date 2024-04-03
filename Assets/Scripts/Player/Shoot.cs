@@ -1,24 +1,31 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
+[CreateAssetMenu]
 public class Shoot : Ability
 {
     [SerializeField] GameObject Bullets;
     [SerializeField] float speed;
-    [SerializeField] Transform spawnPoint;
-    [SerializeField] List<Transform> Spawn;
-    
-   public override void Trigger(Vector3 direction)
+    [SerializeField] GameObject bulletSpawn;
+    public override void PlayerTransform(Transform playerTr)
+    {
+        Transform spawnPoint = playerTr.Find("BulletSpawn");
+
+        for (int i = 0; i < spawnPoint; i++)
+        {
+
+        }
+    }
+
+    public override void Trigger(Vector3 direction)
     {
         if(elapsedCoolDown == 0)
         {
-            for(int i = 0; i < Spawn.Count; i++)
-            {
                 GameObject bulletInstance = GameObject.Instantiate
                 (Bullets,
-                Spawn[i].position,
+                direction,
                 Quaternion.identity
                 );
                 LinearMovement lm = bulletInstance.GetComponent<LinearMovement>();
@@ -26,9 +33,8 @@ public class Shoot : Ability
                 Destroy(bulletInstance, 1f);
 
                 lm.Shoot(direction);
-
-            }
-            StartCoroutine(coolDownCouroutine());
+            
+                //StartCoroutine(coolDownCouroutine());
         }
         else if (elapsedCoolDown >= coolDown)
         {
